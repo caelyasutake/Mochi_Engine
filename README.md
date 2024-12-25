@@ -1,2 +1,2 @@
-# Physics_Engine
-Visual Physics Simulator
+# Mochi Engine
+Soft-body physics simulator.
