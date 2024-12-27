@@ -5,7 +5,11 @@
 extern Mochi::Application* Mochi::CreateApplication();
 
 int main(int argc, char** argv) {
-	//printf("Mochi Engine\n");
+	Mochi::Log::Init();
+	MC_CORE_WARN("Initialized Log!");
+	int a = 5;
+	MC_INFO("Hello Var={0}", a);
+
 	auto app = Mochi::CreateApplication();
 	app->Run();
 	delete app;
