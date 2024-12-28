@@ -1,6 +1,5 @@
 #include "mcpch.h"
 #include "WindowsWindow.h"
-#include "Mochi/Log.h"
 
 namespace Mochi {
 	static bool s_GLFWInitialized = false;
