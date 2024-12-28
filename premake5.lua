@@ -10,6 +10,11 @@ workspace "Mochi"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Mochi/vendor/GLFW/include"
+
+include "Mochi/vendor/GLFW"
+
 project "Mochi"
 	location "Mochi"
 	kind "SharedLib"
@@ -30,7 +35,15 @@ project "Mochi"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links 
+	{
+		"GLFW",
+		"opengl32.lib",
+		"dwmapi.lib"
 	}
 
 	buildoptions{"/utf-8"}
