@@ -4,6 +4,9 @@
     <Filter Include="Mochi">
       <UniqueIdentifier>{F5EFAE0D-6104-D7BE-2A86-7A1E9659D3EF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mochi\Events">
+      <UniqueIdentifier>{3976227A-25D9-B11E-CE5E-EAD4BAA07DA1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mochi.h" />
@@ -15,6 +18,18 @@
     </ClInclude>
     <ClInclude Include="src\Mochi\EntryPoint.h">
       <Filter>Mochi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Events\ApplicationEvent.h">
+      <Filter>Mochi\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Events\Event.h">
+      <Filter>Mochi\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Events\KeyEvent.h">
+      <Filter>Mochi\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Events\MouseEvent.h">
+      <Filter>Mochi\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochi\Log.h">
       <Filter>Mochi</Filter>
