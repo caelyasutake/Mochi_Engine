@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Mochi {
 	class MOCHI_API KeyEvent : public Event {
 	public:

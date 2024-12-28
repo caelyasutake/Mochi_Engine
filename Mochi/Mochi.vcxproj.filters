@@ -34,6 +34,7 @@
     <ClInclude Include="src\Mochi\Log.h">
       <Filter>Mochi</Filter>
     </ClInclude>
+    <ClInclude Include="src\mcpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochi\Application.cpp">
@@ -42,5 +43,6 @@
     <ClCompile Include="src\Mochi\Log.cpp">
       <Filter>Mochi</Filter>
     </ClCompile>
+    <ClCompile Include="src\mcpch.cpp" />
   </ItemGroup>
 </Project>

@@ -1,3 +1,4 @@
+#include "mcpch.h"
 #include "Application.h"
 
 #include "Mochi/Events/ApplicationEvent.h"

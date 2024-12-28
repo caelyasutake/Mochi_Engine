@@ -18,6 +18,9 @@ project "Mochi"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "mcpch.h"
+	pchsource "Mochi/src/mcpch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",
