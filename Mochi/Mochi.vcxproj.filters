@@ -37,6 +37,12 @@
     <ClInclude Include="src\Mochi\Events\MouseEvent.h">
       <Filter>Mochi\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochi\Layer.h">
+      <Filter>Mochi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\LayerStack.h">
+      <Filter>Mochi</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mochi\Log.h">
       <Filter>Mochi</Filter>
     </ClInclude>
@@ -50,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochi\Application.cpp">
+      <Filter>Mochi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochi\Layer.cpp">
+      <Filter>Mochi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochi\LayerStack.cpp">
       <Filter>Mochi</Filter>
     </ClCompile>
     <ClCompile Include="src\Mochi\Log.cpp">
