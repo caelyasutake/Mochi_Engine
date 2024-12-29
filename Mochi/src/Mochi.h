@@ -5,6 +5,7 @@
 #include "Mochi/Application.h"
 #include "Mochi/Layer.h"
 #include "Mochi/Log.h"
+#include "Mochi/ImGui/ImGuiLayer.h"
 
 // Entry Point
 #include "Mochi/EntryPoint.h"

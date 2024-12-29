@@ -20,6 +20,7 @@ class Sandbox : public Mochi::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Mochi::ImGuiLayer());
 	}
 
 	~Sandbox() {

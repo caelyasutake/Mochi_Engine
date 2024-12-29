@@ -12,8 +12,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Mochi/vendor/GLFW/include"
+IncludeDir["Glad"] = "Mochi/vendor/Glad/include"
+IncludeDir["ImGui"] = "Mochi/vendor/imgui"
 
 include "Mochi/vendor/GLFW"
+include "Mochi/vendor/Glad"
+include "Mochi/vendor/imgui"
 
 project "Mochi"
 	location "Mochi"
@@ -36,12 +40,16 @@ project "Mochi"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links 
 	{
 		"GLFW",
+		"Glad",
+		"ImGui",
 		"opengl32.lib",
 		"dwmapi.lib"
 	}
@@ -56,7 +64,8 @@ project "Mochi"
 		defines
 		{
 			"MC_PLATFORM_WINDOWS",
-			"MC_BUILD_DLL"
+			"MC_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
@@ -114,7 +123,8 @@ project "Sandbox"
 
 		defines
 		{
-			"MC_PLATFORM_WINDOWS"
+			"MC_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE"
 		}
 
 	filter "configurations:Debug"

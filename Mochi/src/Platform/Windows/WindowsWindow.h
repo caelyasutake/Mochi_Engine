@@ -2,7 +2,7 @@
 
 #include "Mochi/Window.h"
 
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
 namespace Mochi {
 	class WindowsWindow : public Window {
