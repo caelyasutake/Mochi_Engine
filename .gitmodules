@@ -7,3 +7,6 @@
 [submodule "Mochi/vendor/imgui"]
 	path = Mochi/vendor/imgui
 	url = https://github.com/TheCherno/imgui
+[submodule "Mochi/vendor/glm"]
+	path = Mochi/vendor/glm
+	url = https://github.com/g-truc/glm

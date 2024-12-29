@@ -8,11 +8,18 @@ public:
 	}
 
 	void OnUpdate() override {
-		MC_INFO("ExampleLayer::Update");
+		//MC_INFO("ExampleLayer::Update");
+
+		if (Mochi::Input::IsKeyPressed(MC_KEY_TAB))
+			MC_TRACE("Tab key is pressed!");
 	}
 
 	void OnEvent(Mochi::Event& event) override {
-		MC_TRACE("{0}", event.ToString());
+		//MC_TRACE("{0}", event.ToString());
+		if (event.GetEventType() == Mochi::EventType::KeyPressed) {
+			Mochi::KeyPressedEvent& e = (Mochi::KeyPressedEvent&)event;
+			MC_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 

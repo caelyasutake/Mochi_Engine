@@ -14,6 +14,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Mochi/vendor/GLFW/include"
 IncludeDir["Glad"] = "Mochi/vendor/Glad/include"
 IncludeDir["ImGui"] = "Mochi/vendor/imgui"
+IncludeDir["glm"] = "Mochi/vendor/glm"
 
 include "Mochi/vendor/GLFW"
 include "Mochi/vendor/Glad"
@@ -33,7 +34,9 @@ project "Mochi"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -42,7 +45,8 @@ project "Mochi"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links 
@@ -106,7 +110,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Mochi/vendor/spdlog/include",
-		"Mochi/src"
+		"Mochi/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links
