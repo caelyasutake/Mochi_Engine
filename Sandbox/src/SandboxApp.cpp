@@ -1,5 +1,7 @@
 #include <Mochi.h>
 
+#include "imgui/imgui.h""
+
 class ExampleLayer : public Mochi::Layer {
 public:
 	ExampleLayer()
@@ -12,6 +14,12 @@ public:
 
 		if (Mochi::Input::IsKeyPressed(MC_KEY_TAB))
 			MC_TRACE("Tab key is pressed!");
+	}
+
+	virtual void OnImGuiRender() override {
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World!");
+		ImGui::End();
 	}
 
 	void OnEvent(Mochi::Event& event) override {

@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef MC_PLATFORM_WINDOWS
+#if MC_DYNAMIC_LINK
 	#ifdef MC_BUILD_DLL
 		#define MOCHI_API __declspec(dllexport)
 	#else 
 		#define MOCHI_API __declspec(dllimport)
 	#endif
+#else
+	#define MOCHI_API
+#endif
 #else 
 	#error Mochi only supports Windows!
 #endif

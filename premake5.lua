@@ -22,14 +22,21 @@ include "Mochi/vendor/imgui"
 
 project "Mochi"
 	location "Mochi"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "mcpch.h"
 	pchsource "Mochi/src/mcpch.cpp"
+
+	defines 
+	{
+		"_CRT_SECURE_NO_WARNINGS"
+	}
 
 	files
 	{
@@ -72,29 +79,27 @@ project "Mochi"
 			"GLFW_INCLUDE_NONE"
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
-
 	filter "configurations:Debug"
 		defines "MC_DEBUG"
 		buildoptions "/MDd"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "MC_RELEASE"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "MC_DIST"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	language "C++"
 
@@ -111,6 +116,7 @@ project "Sandbox"
 	{
 		"Mochi/vendor/spdlog/include",
 		"Mochi/src",
+		"Mochi/vendor",
 		"%{IncludeDir.glm}"
 	}
 
@@ -129,7 +135,7 @@ project "Sandbox"
 		defines
 		{
 			"MC_PLATFORM_WINDOWS",
-			"GLFW_INCLUDE_NONE"
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 
 	filter "configurations:Debug"
