@@ -4,6 +4,8 @@
 
 #include "GLFW/glfw3.h"
 
+#include "Mochi/Renderer/GraphicsContext.h"
+
 namespace Mochi {
 	class WindowsWindow : public Window {
 	public:
@@ -25,6 +27,7 @@ namespace Mochi {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;
