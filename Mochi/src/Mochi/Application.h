@@ -7,6 +7,8 @@
 #include "Mochi/Events/Event.h"
 #include "Mochi/Events/ApplicationEvent.h"
 
+#include "Mochi/ImGui/ImGuiLayer.h"
+
 namespace Mochi {
 	class MOCHI_API Application {
 	public:
@@ -26,6 +28,8 @@ namespace Mochi {
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		//ImGuiLayer* m_ImGuiLayer;
+		std::unique_ptr<ImGuiLayer> m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:
