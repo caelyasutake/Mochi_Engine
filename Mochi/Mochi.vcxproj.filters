@@ -93,7 +93,13 @@
     <ClInclude Include="src\Mochi\MouseButtonCodes.h">
       <Filter>src\Mochi</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochi\Renderer\Buffer.h">
+      <Filter>src\Mochi\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mochi\Renderer\GraphicsContext.h">
+      <Filter>src\Mochi\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Renderer\Renderer.h">
       <Filter>src\Mochi\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochi\Renderer\Shader.h">
@@ -101,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="src\Mochi\Window.h">
       <Filter>src\Mochi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1382,8 +1391,17 @@
     <ClCompile Include="src\Mochi\Log.cpp">
       <Filter>src\Mochi</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mochi\Renderer\Buffer.cpp">
+      <Filter>src\Mochi\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochi\Renderer\Renderer.cpp">
+      <Filter>src\Mochi\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Mochi\Renderer\Shader.cpp">
       <Filter>src\Mochi\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Platform\OpenGL</Filter>
