@@ -9,6 +9,8 @@
 
 #include "Mochi/ImGui/ImGuiLayer.h"
 
+#include "Mochi/Renderer/Shader.h"
+
 namespace Mochi {
 	class MOCHI_API Application {
 	public:
@@ -32,6 +34,10 @@ namespace Mochi {
 		std::unique_ptr<ImGuiLayer> m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+
+		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+
+		std::unique_ptr<Shader> m_Shader;
 	private:
 		static Application* s_Instance;
 	};

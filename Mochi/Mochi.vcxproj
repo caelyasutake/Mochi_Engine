@@ -162,6 +162,7 @@
     <ClInclude Include="src\Mochi\Log.h" />
     <ClInclude Include="src\Mochi\MouseButtonCodes.h" />
     <ClInclude Include="src\Mochi\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Mochi\Renderer\Shader.h" />
     <ClInclude Include="src\Mochi\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
@@ -591,6 +592,7 @@
     <ClCompile Include="src\Mochi\Layer.cpp" />
     <ClCompile Include="src\Mochi\LayerStack.cpp" />
     <ClCompile Include="src\Mochi\Log.cpp" />
+    <ClCompile Include="src\Mochi\Renderer\Shader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
