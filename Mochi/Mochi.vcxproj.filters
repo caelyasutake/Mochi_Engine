@@ -105,6 +105,9 @@
     <ClInclude Include="src\Mochi\Renderer\Shader.h">
       <Filter>src\Mochi\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochi\Renderer\VertexArray.h">
+      <Filter>src\Mochi\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mochi\Window.h">
       <Filter>src\Mochi</Filter>
     </ClInclude>
@@ -112,6 +115,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
@@ -1400,10 +1406,16 @@
     <ClCompile Include="src\Mochi\Renderer\Shader.cpp">
       <Filter>src\Mochi\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mochi\Renderer\VertexArray.cpp">
+      <Filter>src\Mochi\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
