@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Mochi/Core.h"
+#include "Mochi/Core/Timestep.h"
 #include "Mochi/Events/Event.h"
 
 namespace Mochi {
@@ -11,7 +12,7 @@ namespace Mochi {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 
