@@ -22,6 +22,15 @@ namespace Mochi {
 		MC_CORE_INFO("  Vendor: {0}", reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
 		MC_CORE_INFO("  Renderer: {0}", reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
 		MC_CORE_INFO("  Version: {0}", reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 	}
 
 	void OpenGLContext::SwapBuffers() {

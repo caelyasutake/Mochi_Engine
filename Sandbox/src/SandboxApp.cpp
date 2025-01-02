@@ -2,124 +2,86 @@
 
 #include "imgui/imgui.h""
 
+#include <glm/gtc/matrix_transform.hpp>
+
 class ExampleLayer : public Mochi::Layer {
 public:
 	ExampleLayer() 
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f) {
+		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), 
+		m_CameraPosition(0.0f), m_CameraRotation(0.0f) {
+
+		// Cube vertices (positions only)
+		float vertices[3 * 8] = {
+			// positions          
+			-0.5f, -0.5f, -0.5f,  // 0
+			 0.5f, -0.5f, -0.5f,  // 1
+			 0.5f,  0.5f, -0.5f,  // 2
+			-0.5f,  0.5f, -0.5f,  // 3
+			-0.5f, -0.5f,  0.5f,  // 4
+			 0.5f, -0.5f,  0.5f,  // 5
+			 0.5f,  0.5f,  0.5f,  // 6
+			-0.5f,  0.5f,  0.5f   // 7
+		};
+
+		// Cube indices for 12 triangles (6 faces, 2 triangles per face)
+		uint32_t indices[6 * 6] = {
+			0, 1, 2, 2, 3, 0, // Front face
+			1, 5, 6, 6, 2, 1, // Right face
+			5, 4, 7, 7, 6, 5, // Back face
+			4, 0, 3, 3, 7, 4, // Left face
+			3, 2, 6, 6, 7, 3, // Top face
+			4, 5, 1, 1, 0, 4  // Bottom face
+		};
 
 		m_VertexArray.reset(Mochi::VertexArray::Create());
 
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f,
-		};
-
 		std::shared_ptr<Mochi::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Mochi::VertexBuffer::Create(vertices, sizeof(vertices)));
+
 		Mochi::BufferLayout layout = {
-			{Mochi::ShaderDataType::Float3, "a_Position"},
-			{Mochi::ShaderDataType::Float4, "a_Color"}
+			{ Mochi::ShaderDataType::Float3, "a_Position" }
 		};
+
 		vertexBuffer->SetLayout(layout);
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
-		uint32_t indices[3] = { 0, 1, 2 };
 		std::shared_ptr<Mochi::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Mochi::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		indexBuffer.reset(Mochi::IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
-
-		m_SquareVA.reset(Mochi::VertexArray::Create());
-
-		float squareVertices[3 * 4] = {
-			-0.75f, -0.75f, 0.0f,
-			 0.75f, -0.75f, 0.0f,
-			 0.75f,  0.75f, 0.0f,
-			 -0.75f,  0.75f, 0.0f,
-		};
-
-		std::shared_ptr<Mochi::VertexBuffer> squareVB;
-		squareVB.reset(Mochi::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		squareVB->SetLayout({
-			{Mochi::ShaderDataType::Float3, "a_Position"}
-			});
-		m_SquareVA->AddVertexBuffer(squareVB);
-
-		uint32_t squareIndices[6] = { 0, 1, 2 , 2, 3, 0 };
-		std::shared_ptr<Mochi::IndexBuffer> squareIB;
-		squareIB.reset(Mochi::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
-		m_SquareVA->SetIndexBuffer(squareIB);
 
 		std::string vertexSrc = R"(
 			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
+			layout (location = 0) in vec3 a_Position;
+	
+			uniform mat4 u_Transform;
 			uniform mat4 u_ViewProjection;
 
-			out vec4 v_Color;
 			out vec3 v_Position;
 
 			void main() {
-				v_Color = a_Color;
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-			}	
-		
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+
 		)";
 
 		std::string fragmentSrc = R"(
 			#version 330 core
 
-			in vec4 v_Color;
-			in vec3 v_Position;
-
 			out vec4 color;
 
 			void main() {
-				color = vec4(v_Position + 0.5, 1.0);
-				color = v_Color;
+				color = vec4(1.0, 0.5, 0.2, 1.0);
 			}	
-		
 		)";
 
 		m_Shader.reset(new Mochi::Shader(vertexSrc, fragmentSrc));
 
-		std::string blueShaderVertexSrc = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-
-			uniform mat4 u_ViewProjection;
-
-			out vec3 v_Position;
-
-			void main() {
-				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-			}	
-		
-		)";
-
-		std::string blueShaderFragmentSrc = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-			in vec3 v_Position;
-
-			void main() {
-				color = vec4(0.2, 0.3, 0.8, 1.0);
-			}	
-		
-		)";
-
-		m_BlueShader.reset(new Mochi::Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
 	}
 
 	void OnUpdate(Mochi::Timestep ts) override {
 
-		// Movement
+		// Camera Movement
 		if (Mochi::Input::IsKeyPressed(MC_KEY_LEFT))
 			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
 
@@ -132,12 +94,24 @@ public:
 		else if (Mochi::Input::IsKeyPressed(MC_KEY_DOWN))
 			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
 
-		// Rotation
+		// Camera Rotation
 		if (Mochi::Input::IsKeyPressed(MC_KEY_A))
-			m_CameraRotation += m_CameraRotationSpeed * ts;
+			m_CameraRotation.z += m_CameraRotationSpeed * ts;
 
 		if (Mochi::Input::IsKeyPressed(MC_KEY_D))
-			m_CameraRotation -= m_CameraRotationSpeed * ts;
+			m_CameraRotation.z -= m_CameraRotationSpeed * ts;
+
+		if (Mochi::Input::IsKeyPressed(MC_KEY_W))
+			m_CameraRotation.y += m_CameraRotationSpeed * ts;
+
+		if (Mochi::Input::IsKeyPressed(MC_KEY_S))
+			m_CameraRotation.y -= m_CameraRotationSpeed * ts;
+
+		if (Mochi::Input::IsKeyPressed(MC_KEY_X))
+			m_CameraRotation.x += m_CameraRotationSpeed * ts;
+
+		if (Mochi::Input::IsKeyPressed(MC_KEY_C))
+			m_CameraRotation.x -= m_CameraRotationSpeed * ts;
 
 		Mochi::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Mochi::RenderCommand::Clear();
@@ -147,7 +121,9 @@ public:
 
 		Mochi::Renderer::BeginScene(m_Camera);
 
-		Mochi::Renderer::Submit(m_BlueShader, m_SquareVA);
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)) * scale;
+		
 		Mochi::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Mochi::Renderer::EndScene();
@@ -172,7 +148,7 @@ private:
 	glm::vec3 m_CameraPosition;
 	float m_CameraMoveSpeed = 3.0f;
 
-	float m_CameraRotation = 0.0f;
+	glm::vec3 m_CameraRotation;
 	float m_CameraRotationSpeed = 180.0f;
 };
 
