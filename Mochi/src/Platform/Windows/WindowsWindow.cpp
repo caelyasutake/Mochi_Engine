@@ -46,6 +46,7 @@ namespace Mochi {
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
+		//glfwSetScrollCallback(m_Window, ScrollCallback);
 		SetVSync(true);
 
 		// Set GLFW callbacks

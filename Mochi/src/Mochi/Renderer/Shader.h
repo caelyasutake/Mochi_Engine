@@ -13,6 +13,11 @@ namespace Mochi {
 		void Unbind() const;
 
 		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+	
+		void SetUniform3f(const std::string& name, const glm::vec3& value);
+		void UploadUniformFloat(const std::string& name, float value);
+		void UploadUniformVec3(const std::string& name, const glm::vec3& vector);
+		void UploadUniformInt(const std::string& name, int value);
 	private:
 		uint32_t m_RendererID;
 	};
