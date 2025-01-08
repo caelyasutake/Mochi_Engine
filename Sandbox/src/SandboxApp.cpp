@@ -19,16 +19,16 @@ public:
 		m_LightPosition = glm::vec3(1.0f, 1.0f, 2.0f);
 
 		// Cube vertices (positions only)
-		float vertices[6 * 8] = {
+		float vertices[10 * 8] = {
 			// positions          
-			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // 0
-			 0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // 1
-			 0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // 2
-			-0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // 3
-			-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, // 4
-			 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, // 5
-			 0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, // 6
-			-0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, // 7
+			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // 0
+			 0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, // 1
+			 0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // 2
+			-0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // 3
+			-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // 4
+			 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, // 5
+			 0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // 6
+			-0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f  // 7
 		};
 
 		// Cube indices for 12 triangles (6 faces, 2 triangles per face)
@@ -48,7 +48,8 @@ public:
 
 		Mochi::BufferLayout layout = {
 			{ Mochi::ShaderDataType::Float3, "a_Position" },
-			{ Mochi::ShaderDataType::Float3, "a_Normal" }
+			{ Mochi::ShaderDataType::Float3, "a_Normal" },
+			{ Mochi::ShaderDataType::Float2, "a_TexCoord" }
 		};
 
 		vertexBuffer->SetLayout(layout);
@@ -105,6 +106,63 @@ public:
 
 		m_Shader.reset(Mochi::Shader::Create(vertexSrc, fragmentSrc));
 		
+		////////
+
+		std::string textureVertexSrc = R"(
+			#version 330 core
+			layout (location = 0) in vec3 a_Position;
+			layout (location = 1) in vec3 a_Normal;
+			layout (location = 2) in vec2 a_TexCoord;
+
+			uniform mat4 u_Transform;
+			uniform mat4 u_ViewProjection;
+
+			uniform sampler2D u_Texture;
+
+			out vec3 v_Normal;
+			out vec3 v_Position;
+			out vec2 v_TexCoord;
+
+			void main() {
+				v_Position = a_Position;
+				v_TexCoord = a_TexCoord;
+				v_Normal = mat3(transpose(inverse(u_Transform))) * a_Normal;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+
+		)";
+
+		std::string textureFragmentSrc = R"(
+			#version 330 core
+			in vec3 v_Normal;
+			in vec3 v_Position;
+			in vec2 v_TexCoord;
+
+			out vec4 color;
+
+			uniform vec3 u_LightColor;
+			uniform vec3 u_LightPos;
+			uniform sampler2D u_Texture;
+
+			void main() {
+				float ambientStrength = 0.2;
+				vec3 ambient = ambientStrength * u_LightColor;
+
+				vec3 norm = normalize(v_Normal);
+				vec3 lightDir = normalize(u_LightPos - v_Position);
+				float diff = max(dot(norm, lightDir), 0.0);
+				vec3 diffuse = diff * u_LightColor * 1.5;
+
+				color = texture(u_Texture, v_TexCoord);
+			}
+		)";
+
+		m_TextureShader.reset(Mochi::Shader::Create(textureVertexSrc, textureFragmentSrc));
+
+		m_Texture = Mochi::Texture2D::Create("assets/textures/Checkerboard.png");
+
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Mochi::Timestep ts) override {
@@ -151,12 +209,13 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_Shader)->Bind();
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_CubeColor);
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_LightColor", m_LightColor);
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_LightPos", m_LightPosition);
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->UploadUniformFloat3("u_Color", m_CubeColor);
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->UploadUniformFloat3("u_LightColor", m_LightColor);
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->UploadUniformFloat3("u_LightPos", m_LightPosition);
 		
-		Mochi::Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture->Bind();
+		Mochi::Renderer::Submit(m_TextureShader, m_VertexArray);
 
 		Mochi::Renderer::EndScene();
 	}
@@ -172,8 +231,10 @@ public:
 	}
 
 private:
-	Mochi::Ref<Mochi::Shader> m_Shader;
+	Mochi::Ref<Mochi::Shader> m_Shader, m_TextureShader;
 	Mochi::Ref<Mochi::VertexArray> m_VertexArray;
+
+	Mochi::Ref<Mochi::Texture2D> m_Texture;
 
 	Mochi::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;

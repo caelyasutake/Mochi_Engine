@@ -15,6 +15,7 @@ IncludeDir["GLFW"] = "Mochi/vendor/GLFW/include"
 IncludeDir["Glad"] = "Mochi/vendor/Glad/include"
 IncludeDir["ImGui"] = "Mochi/vendor/imgui"
 IncludeDir["glm"] = "Mochi/vendor/glm"
+IncludeDir["stb_image"] = "Mochi/vendor/stb_image"
 
 include "Mochi/vendor/GLFW"
 include "Mochi/vendor/Glad"
@@ -42,6 +43,8 @@ project "Mochi"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
@@ -53,7 +56,8 @@ project "Mochi"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links 

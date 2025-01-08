@@ -17,6 +17,7 @@
 #include "Mochi/Renderer/RenderCommand.h"
 #include "Mochi/Renderer/Buffer.h"
 #include "Mochi/Renderer/Shader.h"
+#include "Mochi/Renderer/Texture.h"
 #include "Mochi/Renderer/VertexArray.h"
 #include "Mochi/Renderer/OrthographicCamera.h"
 
