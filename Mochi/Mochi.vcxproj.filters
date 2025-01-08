@@ -1377,6 +1377,12 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mochi\Core\Timestep.h" />
+    <ClInclude Include="src\Mochi\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\Mochi\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\Mochi\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Mochi\Application.cpp">
@@ -1427,5 +1433,10 @@
     <ClCompile Include="src\mcpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mochi\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Mochi\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\Mochi\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
   </ItemGroup>
 </Project>

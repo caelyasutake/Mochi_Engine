@@ -1,9 +1,12 @@
 #include <Mochi.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "imgui/imgui.h""
 #include <cmath>
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public Mochi::Layer {
 public:
@@ -12,8 +15,8 @@ public:
 		m_CameraPosition(0.0f), m_CameraRotation(0.0f) {
 
 		// Add light properties
-		m_LightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-		m_LightDirection = glm::vec3(-0.2f, -1.0f, -0.3f);
+		m_LightColor = glm::vec3(1.5f, 1.5f, 1.5f);
+		m_LightPosition = glm::vec3(1.0f, 1.0f, 2.0f);
 
 		// Cube vertices (positions only)
 		float vertices[6 * 8] = {
@@ -40,7 +43,7 @@ public:
 
 		m_VertexArray.reset(Mochi::VertexArray::Create());
 
-		std::shared_ptr<Mochi::VertexBuffer> vertexBuffer;
+		Mochi::Ref<Mochi::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Mochi::VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		Mochi::BufferLayout layout = {
@@ -51,7 +54,7 @@ public:
 		vertexBuffer->SetLayout(layout);
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
-		std::shared_ptr<Mochi::IndexBuffer> indexBuffer;
+		Mochi::Ref<Mochi::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Mochi::IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -82,26 +85,26 @@ public:
 			out vec4 color;
 
 			uniform vec3 u_LightColor;
-			uniform vec3 u_LightDir;
 			uniform vec3 u_LightPos;
-			uniform vec3 u_ViewPos;
+
+			uniform vec3 u_Color;
 
 			void main() {
-				float ambientStrength = 0.1;
+				float ambientStrength = 0.2;
 				vec3 ambient = ambientStrength * u_LightColor;
 
 				vec3 norm = normalize(v_Normal);
 				vec3 lightDir = normalize(u_LightPos - v_Position);
 				float diff = max(dot(norm, lightDir), 0.0);
-				vec3 diffuse = diff * u_LightColor;
+				vec3 diffuse = diff * u_LightColor * 1.5;
 
-				vec3 result = (ambient + diffuse) * vec3(1.0, 0.5, 0.2);
+				vec3 result = (ambient + diffuse) * u_Color;
 				color = vec4(result, 1.0);
 			}
 		)";
 
-		m_Shader.reset(new Mochi::Shader(vertexSrc, fragmentSrc));
-
+		m_Shader.reset(Mochi::Shader::Create(vertexSrc, fragmentSrc));
+		
 	}
 
 	void OnUpdate(Mochi::Timestep ts) override {
@@ -119,14 +122,12 @@ public:
 		else if (Mochi::Input::IsKeyPressed(MC_KEY_DOWN))
 			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
 
-
-
 		// Camera Rotation
 		if (Mochi::Input::IsKeyPressed(MC_KEY_A))
-			m_CameraRotation.z += m_CameraRotationSpeed * ts;
+			m_CameraRotation.y += m_CameraRotationSpeed * ts;
 
 		if (Mochi::Input::IsKeyPressed(MC_KEY_D))
-			m_CameraRotation.z -= m_CameraRotationSpeed * ts;
+			m_CameraRotation.y -= m_CameraRotationSpeed * ts;
 
 		if (Mochi::Input::IsKeyPressed(MC_KEY_W))
 			m_CameraRotation.x += m_CameraRotationSpeed * ts;
@@ -135,10 +136,10 @@ public:
 			m_CameraRotation.x -= m_CameraRotationSpeed * ts;
 
 		if (Mochi::Input::IsKeyPressed(MC_KEY_X))
-			m_CameraRotation.y += m_CameraRotationSpeed * ts;
+			m_CameraRotation.z += m_CameraRotationSpeed * ts;
 
 		if (Mochi::Input::IsKeyPressed(MC_KEY_C))
-			m_CameraRotation.y -= m_CameraRotationSpeed * ts;
+			m_CameraRotation.z -= m_CameraRotationSpeed * ts;
 
 		Mochi::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Mochi::RenderCommand::Clear();
@@ -147,20 +148,23 @@ public:
 		m_Camera.SetRotation(m_CameraRotation);
 
 		Mochi::Renderer::BeginScene(m_Camera);
-		
-		m_Shader->Bind();
-		m_Shader->SetUniform3f("u_LightColor", m_LightColor);
-		m_Shader->SetUniform3f("u_LightDir", m_LightDirection);
-		m_Shader->UploadUniformVec3("u_LightPos", glm::vec3(1.0, 1.0, 2.0));
-		m_Shader->SetUniform3f("u_ViewPos", m_Camera.GetPosition());
 
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_Shader)->Bind();
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_Color", m_CubeColor);
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_LightColor", m_LightColor);
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_Shader)->UploadUniformFloat3("u_LightPos", m_LightPosition);
+		
 		Mochi::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Mochi::Renderer::EndScene();
 	}
 
 	virtual void OnImGuiRender() override {
-
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Cube Color", glm::value_ptr(m_CubeColor));
+		ImGui::End();
 	}
 
 	void OnEvent(Mochi::Event& event) override {
@@ -168,11 +172,8 @@ public:
 	}
 
 private:
-	std::shared_ptr<Mochi::Shader> m_Shader;
-	std::shared_ptr<Mochi::VertexArray> m_VertexArray;
-
-	std::shared_ptr<Mochi::Shader> m_BlueShader;
-	std::shared_ptr<Mochi::VertexArray> m_SquareVA;
+	Mochi::Ref<Mochi::Shader> m_Shader;
+	Mochi::Ref<Mochi::VertexArray> m_VertexArray;
 
 	Mochi::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
@@ -181,8 +182,10 @@ private:
 	glm::vec3 m_CameraRotation;
 	float m_CameraRotationSpeed = 180.0f;
 
+	glm::vec3 m_CubeColor = { 0.2f, 0.3f, 0.8f };
+
 	glm::vec3 m_LightColor;
-	glm::vec3 m_LightDirection;
+	glm::vec3 m_LightPosition;
 };
 
 class Sandbox : public Mochi::Application {
