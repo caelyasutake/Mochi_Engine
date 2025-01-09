@@ -103,14 +103,13 @@ public:
 				color = vec4(result, 1.0);
 			}
 		)";
-
-		//m_Shader.reset(Mochi::Shader::Create(vertexSrc, fragmentSrc));
 		
-		m_TextureShader.reset(Mochi::Shader::Create("assets/shaders/Texture.glsl"));
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
+		//m_TextureShader = Mochi::Shader::Create("assets/shaders/Texture.glsl");
 		m_Texture = Mochi::Texture2D::Create("assets/textures/Checkerboard.png");
-
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		//MC_CORE_TRACE("TextureShader Name: {0}", textureShader->GetName());
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Mochi::Timestep ts) override {
@@ -157,13 +156,15 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->UploadUniformFloat3("u_Color", m_CubeColor);
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->UploadUniformFloat3("u_LightColor", m_LightColor);
-		std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_TextureShader)->UploadUniformFloat3("u_LightPos", m_LightPosition);
+		auto textureShader = m_ShaderLibrary.Get("Texture");
+
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(textureShader)->UploadUniformFloat3("u_Color", m_CubeColor);
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(textureShader)->UploadUniformFloat3("u_LightColor", m_LightColor);
+		std::dynamic_pointer_cast<Mochi::OpenGLShader>(textureShader)->UploadUniformFloat3("u_LightPos", m_LightPosition);
 		
 		m_Texture->Bind();
-		Mochi::Renderer::Submit(m_TextureShader, m_VertexArray);
+		Mochi::Renderer::Submit(textureShader, m_VertexArray);
 
 		Mochi::Renderer::EndScene();
 	}
@@ -179,7 +180,8 @@ public:
 	}
 
 private:
-	Mochi::Ref<Mochi::Shader> m_Shader, m_TextureShader;
+	Mochi::ShaderLibrary m_ShaderLibrary;
+	Mochi::Ref<Mochi::Shader> m_Shader;
 	Mochi::Ref<Mochi::VertexArray> m_VertexArray;
 
 	Mochi::Ref<Mochi::Texture2D> m_Texture;
