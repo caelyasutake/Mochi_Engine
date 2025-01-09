@@ -162,6 +162,7 @@
     <ClInclude Include="src\Mochi\LayerStack.h" />
     <ClInclude Include="src\Mochi\Log.h" />
     <ClInclude Include="src\Mochi\MouseButtonCodes.h" />
+    <ClInclude Include="src\Mochi\OrthographicCameraController.h" />
     <ClInclude Include="src\Mochi\Renderer\Buffer.h" />
     <ClInclude Include="src\Mochi\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Mochi\Renderer\OrthographicCamera.h" />
@@ -606,6 +607,7 @@
     <ClCompile Include="src\Mochi\Layer.cpp" />
     <ClCompile Include="src\Mochi\LayerStack.cpp" />
     <ClCompile Include="src\Mochi\Log.cpp" />
+    <ClCompile Include="src\Mochi\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Mochi\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Mochi\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Mochi\Renderer\RenderCommand.cpp" />

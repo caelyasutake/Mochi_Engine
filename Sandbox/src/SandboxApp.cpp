@@ -11,8 +11,7 @@
 class ExampleLayer : public Mochi::Layer {
 public:
 	ExampleLayer() 
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), 
-		m_CameraPosition(0.0f), m_CameraRotation(0.0f) {
+		: Layer("Example"), m_CameraController(1280.0f / 720.0f, true) {
 
 		// Add light properties
 		m_LightColor = glm::vec3(1.5f, 1.5f, 1.5f);
@@ -113,46 +112,14 @@ public:
 	}
 
 	void OnUpdate(Mochi::Timestep ts) override {
+		// Update
+		m_CameraController.OnUpdate(ts);
 
-		// Camera Movement
-		if (Mochi::Input::IsKeyPressed(MC_KEY_LEFT))
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
-
-		else if (Mochi::Input::IsKeyPressed(MC_KEY_RIGHT))
-			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-
-		if (Mochi::Input::IsKeyPressed(MC_KEY_UP))
-			m_CameraPosition.y += m_CameraMoveSpeed * ts;
-
-		else if (Mochi::Input::IsKeyPressed(MC_KEY_DOWN))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-
-		// Camera Rotation
-		if (Mochi::Input::IsKeyPressed(MC_KEY_A))
-			m_CameraRotation.y += m_CameraRotationSpeed * ts;
-
-		if (Mochi::Input::IsKeyPressed(MC_KEY_D))
-			m_CameraRotation.y -= m_CameraRotationSpeed * ts;
-
-		if (Mochi::Input::IsKeyPressed(MC_KEY_W))
-			m_CameraRotation.x += m_CameraRotationSpeed * ts;
-
-		if (Mochi::Input::IsKeyPressed(MC_KEY_S))
-			m_CameraRotation.x -= m_CameraRotationSpeed * ts;
-
-		if (Mochi::Input::IsKeyPressed(MC_KEY_X))
-			m_CameraRotation.z += m_CameraRotationSpeed * ts;
-
-		if (Mochi::Input::IsKeyPressed(MC_KEY_C))
-			m_CameraRotation.z -= m_CameraRotationSpeed * ts;
-
+		// Render
 		Mochi::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Mochi::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		Mochi::Renderer::BeginScene(m_Camera);
+		Mochi::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -175,8 +142,8 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(Mochi::Event& event) override {
-
+	void OnEvent(Mochi::Event& e) override {
+		m_CameraController.OnEvent(e);
 	}
 
 private:
@@ -186,12 +153,7 @@ private:
 
 	Mochi::Ref<Mochi::Texture2D> m_Texture;
 
-	Mochi::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 3.0f;
-
-	glm::vec3 m_CameraRotation;
-	float m_CameraRotationSpeed = 180.0f;
+	Mochi::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_CubeColor = { 0.2f, 0.3f, 0.8f };
 
