@@ -2,7 +2,7 @@
 
 #include "mcpch.h"
 
-#include "Mochi/Core.h"
+#include "Mochi/Core/Core.h"
 #include "Mochi/Events/Event.h"
 
 namespace Mochi {

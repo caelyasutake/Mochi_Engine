@@ -1,7 +1,7 @@
 #pragma once
 
 #include "mcpch.h"
-#include "Mochi/Core.h"
+#include "Mochi/Core/Core.h"
 
 namespace Mochi {
 

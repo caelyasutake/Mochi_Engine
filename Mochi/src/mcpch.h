@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Mochi/Log.h"
+#include "Mochi/Core/Log.h"
 
 #ifdef MC_PLATFORM_WINDOWS
 	#include <Windows.h>

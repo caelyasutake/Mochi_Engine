@@ -1,7 +1,7 @@
 #include "mcpch.h"
 #include "Application.h"
 
-#include "Mochi/Log.h"
+#include "Mochi/Core/Log.h"
 
 #include "Mochi/Renderer/Renderer.h"
 

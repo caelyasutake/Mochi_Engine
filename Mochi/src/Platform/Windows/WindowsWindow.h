@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mochi/Window.h"
+#include "Mochi/Core/Window.h"
 
 #include "GLFW/glfw3.h"
 

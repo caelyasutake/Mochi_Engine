@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mochi/Core.h"
+#include "Mochi/Core/Core.h"
 #include "Mochi/Core/Timestep.h"
 #include "Mochi/Events/Event.h"
 

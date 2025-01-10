@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mochi/Input.h"
+#include "Mochi/Core/Input.h"
 
 namespace Mochi {
 	class WindowsInput : public Input {

@@ -57,17 +57,38 @@
     <ClInclude Include="src\Mochi.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mochi\Application.h">
-      <Filter>src\Mochi</Filter>
+    <ClInclude Include="src\Mochi\Core\Application.h">
+      <Filter>src\Mochi\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mochi\Core.h">
-      <Filter>src\Mochi</Filter>
+    <ClInclude Include="src\Mochi\Core\Core.h">
+      <Filter>src\Mochi\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Core\EntryPoint.h">
+      <Filter>src\Mochi\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Core\Input.h">
+      <Filter>src\Mochi\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Core\KeyCodes.h">
+      <Filter>src\Mochi\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Core\Layer.h">
+      <Filter>src\Mochi\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Core\LayerStack.h">
+      <Filter>src\Mochi\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Core\Log.h">
+      <Filter>src\Mochi\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Core\MouseButtonCodes.h">
+      <Filter>src\Mochi\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochi\Core\Timestep.h">
       <Filter>src\Mochi\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mochi\EntryPoint.h">
-      <Filter>src\Mochi</Filter>
+    <ClInclude Include="src\Mochi\Core\Window.h">
+      <Filter>src\Mochi\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochi\Events\ApplicationEvent.h">
       <Filter>src\Mochi\Events</Filter>
@@ -84,24 +105,6 @@
     <ClInclude Include="src\Mochi\ImGui\ImGuiLayer.h">
       <Filter>src\Mochi\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mochi\Input.h">
-      <Filter>src\Mochi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Mochi\KeyCodes.h">
-      <Filter>src\Mochi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Mochi\Layer.h">
-      <Filter>src\Mochi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Mochi\LayerStack.h">
-      <Filter>src\Mochi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Mochi\Log.h">
-      <Filter>src\Mochi</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Mochi\MouseButtonCodes.h">
-      <Filter>src\Mochi</Filter>
-    </ClInclude>
     <ClInclude Include="src\Mochi\Renderer\Buffer.h">
       <Filter>src\Mochi\Renderer</Filter>
     </ClInclude>
@@ -109,6 +112,9 @@
       <Filter>src\Mochi\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochi\Renderer\OrthographicCamera.h">
+      <Filter>src\Mochi\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mochi\Renderer\OrthographicCameraController.h">
       <Filter>src\Mochi\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Mochi\Renderer\RenderCommand.h">
@@ -128,9 +134,6 @@
     </ClInclude>
     <ClInclude Include="src\Mochi\Renderer\VertexArray.h">
       <Filter>src\Mochi\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Mochi\Window.h">
-      <Filter>src\Mochi</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1412,8 +1415,17 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Mochi\Application.cpp">
-      <Filter>src\Mochi</Filter>
+    <ClCompile Include="src\Mochi\Core\Application.cpp">
+      <Filter>src\Mochi\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochi\Core\Layer.cpp">
+      <Filter>src\Mochi\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochi\Core\LayerStack.cpp">
+      <Filter>src\Mochi\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochi\Core\Log.cpp">
+      <Filter>src\Mochi\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Mochi\ImGui\ImGuiBuild.cpp">
       <Filter>src\Mochi\ImGui</Filter>
@@ -1421,19 +1433,13 @@
     <ClCompile Include="src\Mochi\ImGui\ImGuiLayer.cpp">
       <Filter>src\Mochi\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mochi\Layer.cpp">
-      <Filter>src\Mochi</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Mochi\LayerStack.cpp">
-      <Filter>src\Mochi</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Mochi\Log.cpp">
-      <Filter>src\Mochi</Filter>
-    </ClCompile>
     <ClCompile Include="src\Mochi\Renderer\Buffer.cpp">
       <Filter>src\Mochi\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Mochi\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Mochi\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mochi\Renderer\OrthographicCameraController.cpp">
       <Filter>src\Mochi\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Mochi\Renderer\RenderCommand.cpp">

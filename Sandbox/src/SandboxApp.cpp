@@ -144,14 +144,6 @@ public:
 
 	void OnEvent(Mochi::Event& e) override {
 		m_CameraController.OnEvent(e);
-		/**/
-		if (e.GetEventType() == Mochi::EventType::WindowResize) {
-			auto& re = (Mochi::WindowResizeEvent&)e;
-
-			float zoom = (float)re.GetWidth() / 1280.0f;
-
-			m_CameraController.SetZoomLevel(zoom);
-		}
 	}
 
 private:

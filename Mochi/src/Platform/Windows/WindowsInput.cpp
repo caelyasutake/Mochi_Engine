@@ -2,7 +2,7 @@
 #include "WindowsInput.h"
 
 #include <GLFW/glfw3.h>
-#include "Mochi/Application.h"
+#include "Mochi/Core/Application.h"
 
 namespace Mochi {
 

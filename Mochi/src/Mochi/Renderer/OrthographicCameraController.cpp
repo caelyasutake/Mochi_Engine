@@ -1,8 +1,8 @@
 #include "mcpch.h"
 #include "OrthographicCameraController.h"
 
-#include "Mochi/Input.h"
-#include "Mochi/KeyCodes.h"
+#include "Mochi/Core/Input.h"
+#include "Mochi/Core/KeyCodes.h"
 
 namespace Mochi {
 

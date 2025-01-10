@@ -2,16 +2,16 @@
 
 // For use by Mochi applications
 
-#include "Mochi/Application.h"
-#include "Mochi/Layer.h"
-#include "Mochi/Log.h"
+#include "Mochi/Core/Application.h"
+#include "Mochi/Core/Layer.h"
+#include "Mochi/Core/Log.h"
 
 #include "Mochi/Core/Timestep.h"
 
-#include "Mochi/Input.h"
-#include "Mochi/KeyCodes.h"
-#include "Mochi/MouseButtonCodes.h"
-#include "Mochi/OrthographicCameraController.h"
+#include "Mochi/Core/Input.h"
+#include "Mochi/Core/KeyCodes.h"
+#include "Mochi/Core/MouseButtonCodes.h"
+#include "Mochi/Renderer/OrthographicCameraController.h"
 
 #include "Mochi/ImGui/ImGuiLayer.h"
 
@@ -29,5 +29,5 @@
 // --------------------------------------------
 
 // ---Entry Point------------------------------
-#include "Mochi/EntryPoint.h"
+#include "Mochi/Core/EntryPoint.h"
 // --------------------------------------------
