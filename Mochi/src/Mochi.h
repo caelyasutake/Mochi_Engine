@@ -27,7 +27,3 @@
 
 #include "Mochi/Renderer/OrthographicCamera.h"
 // --------------------------------------------
-
-// ---Entry Point------------------------------
-#include "Mochi/Core/EntryPoint.h"
-// --------------------------------------------

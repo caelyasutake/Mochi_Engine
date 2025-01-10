@@ -1,4 +1,5 @@
 #include <Mochi.h>
+#include <Mochi/Core/EntryPoint.h>
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -7,6 +8,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "Sandbox2D.h"
 
 class ExampleLayer : public Mochi::Layer {
 public:
@@ -40,7 +43,7 @@ public:
 			4, 5, 1, 1, 0, 4  // Bottom face
 		};
 
-		m_VertexArray.reset(Mochi::VertexArray::Create());
+		m_VertexArray = Mochi::VertexArray::Create();
 
 		Mochi::Ref<Mochi::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Mochi::VertexBuffer::Create(vertices, sizeof(vertices)));
@@ -164,8 +167,8 @@ private:
 class Sandbox : public Mochi::Application {
 public:
 	Sandbox() {
-		PushLayer(new ExampleLayer());
-		PushOverlay(new Mochi::ImGuiLayer());
+		//PushLayer(new ExampleLayer());
+		PushOverlay(new Sandbox2D());
 	}
 
 	~Sandbox() {

@@ -137,12 +137,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Sandbox2D.cpp" />
     <ClCompile Include="src\SandboxApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mochi\Mochi.vcxproj">
       <Project>{F5EFAE0D-6104-D7BE-2A86-7A1E9659D3EF}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Sandbox2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\FlatColor.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
