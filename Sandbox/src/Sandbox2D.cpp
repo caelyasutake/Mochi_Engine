@@ -1,6 +1,5 @@
 #include "Sandbox2D.h"
 #include "imgui/imgui.h"
-#include "Platform/OpenGL/OpenGLShader.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -11,28 +10,7 @@ Sandbox2D::Sandbox2D()
 }
 
 void Sandbox2D::OnAttach() {
-	m_SquareVA = Mochi::VertexArray::Create();
-
-	float squareVertices[5 * 4] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f
-	};
-
-	Mochi::Ref<Mochi::VertexBuffer> squareVB;
-	squareVB.reset(Mochi::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-	squareVB->SetLayout({
-		{ Mochi::ShaderDataType::Float3, "a_Position" }
-	});
-	m_SquareVA->AddVertexBuffer(squareVB);
-	
-	uint32_t squareIndices[6] = { 0,1,2,2,3,0 };
-	Mochi::Ref<Mochi::IndexBuffer> squareIB;
-	squareIB.reset(Mochi::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
-	m_SquareVA->SetIndexBuffer(squareIB);
-
-	m_FlatColorShader = Mochi::Shader::Create("assets/shaders/FlatColor.glsl");
+	m_CheckerboardTexture = Mochi::Texture2D::Create("assets/textures/Checkerboard.png");
 }
 
 void Sandbox2D::OnDetach() {
@@ -47,14 +25,15 @@ void Sandbox2D::OnUpdate(Mochi::Timestep ts) {
 	Mochi::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 	Mochi::RenderCommand::Clear();
 
-	Mochi::Renderer::BeginScene(m_CameraController.GetCamera());
+	Mochi::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-	std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_FlatColorShader)->Bind();
-	std::dynamic_pointer_cast<Mochi::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor);
+	Mochi::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+	Mochi::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
+	Mochi::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0, 10.0f }, m_CheckerboardTexture);
+	
+	
+	Mochi::Renderer2D::EndScene();
 
-	Mochi::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-
-	Mochi::Renderer::EndScene();
 }
 
 void Sandbox2D::OnImGuiRender() {

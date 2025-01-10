@@ -18,6 +18,7 @@
 // ---Renderer---------------------------------
 
 #include "Mochi/Renderer/Renderer.h"
+#include "Mochi/Renderer/Renderer2D.h"
 #include "Mochi/Renderer/RenderCommand.h"
 
 #include "Mochi/Renderer/Buffer.h"
